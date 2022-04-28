@@ -27,42 +27,42 @@
             <input type="checkbox" id="checkbox_toggle" />
             <label for="checkbox_toggle" class="hamburger">&#9776;</label>
             <div class="menu">
-                <li><a href="/">menu1</a></li>
-                <li><a href="/">menu2</a></li>
-                <li><a href="/">menu3</a></li>
-                <li><a href="/">menu4</a></li>
+                <li><a href="#">menu1</a></li>
+                <li><a href="#">menu2</a></li>
+                <li><a href="#">menu3</a></li>
+                <li><a href="#">menu4</a></li>
             </div>
         </ul>
         <div class="logo">WORLD4UA</div>
     </nav>
 
-        <div id="map">
-        </div>
-        <script src="js/qgis2web_expressions.js"></script>
-        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
-        <script src="js/leaflet.rotatedMarker.js"></script>
-        <script src="js/leaflet.pattern.js"></script>
-        <script src="js/leaflet-hash.js"></script>
-        <script src="js/Autolinker.min.js"></script>
-        <script src="js/rbush.min.js"></script>
-        <script src="js/labelgun.min.js"></script>
-        <script src="js/labels.js"></script>
-        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
-        <script src="data/Territories_2.js"></script>
-        <script>
+    <div id="map">
+    </div>
+    <script src="js/qgis2web_expressions.js"></script>
+    <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+    <script src="js/leaflet.rotatedMarker.js"></script>
+    <script src="js/leaflet.pattern.js"></script>
+    <script src="js/leaflet-hash.js"></script>
+    <script src="js/Autolinker.min.js"></script>
+    <script src="js/rbush.min.js"></script>
+    <script src="js/labelgun.min.js"></script>
+    <script src="js/labels.js"></script>
+    <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+    <script src="data/Territories_2.js"></script>
+    <script>
         var highlightLayer;
         function highlightFeature(e) {
             highlightLayer = e.target;
 
             if (e.target.feature.geometry.type === 'LineString') {
-              highlightLayer.setStyle({
-                color: '#7c7c7c',
-              });
+                highlightLayer.setStyle({
+                    color: '#7c7c7c',
+                });
             } else {
-              highlightLayer.setStyle({
-                fillColor: '#7c7c7c',
-                fillOpacity: 1
-              });
+                highlightLayer.setStyle({
+                    fillColor: '#7c7c7c',
+                    fillOpacity: 1
+                });
             }
         }
         var map = L.map('map', {
@@ -112,48 +112,55 @@
                 },
                 mouseover: highlightFeature,
             });
-            var fugitive_status = null;
-            if (feature.properties['fugitive_status'] == null)
-                fugitive_status = 'Немає інформації'
-            else if(feature.properties['fugitive_status'] == 0)
-                fugitive_status ='Вільно';
+
+            var fugitive_status = '<b>В\'їзд:</b> ';
+            if (feature.properties['fugitive_status'] == 0)
+                fugitive_status += 'Вільний';
             else if (feature.properties['fugitive_status'] == 1)
-                fugitive_status = 'Частково вільно';
+                fugitive_status += 'Деякі складнощі';
             else if (feature.properties['fugitive_status'] == 2)
-                fugitive_status = 'Важко';
+                fugitive_status += 'Складний';
             else if (feature.properties['fugitive_status'] == 3)
-                fugitive_status = 'Заборонено';
-            else if (feature.properties['fugitive_status'] == 100)
+                fugitive_status += 'Заборонено';
+            else
                 fugitive_status = '';
-            else fugitive_status = 'Немає інформації';
 
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2"><strong>Країна: </strong>' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : 'DB error') + '</td>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"<strong>В\'їзд</strong>>' + fugitive_status + '</td>\
+                        <td colspan="2">' + fugitive_status + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>Інформація</strong><br />' + (feature.properties['header_description'] !== null ? autolinker.link(feature.properties['header_description'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>general_info</strong><br />' + (feature.properties['general_info'] !== null ? autolinker.link(feature.properties['general_info'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>Детально</strong><br />' + (feature.properties['main_description'] !== null ? autolinker.link(feature.properties['main_description'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>entry_doc</strong><br />' + (feature.properties['entry_doc'] !== null ? autolinker.link(feature.properties['entry_doc'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Адреса посольства</th>\
-                        <td>' + (feature.properties['embassy_address'] !== null ? autolinker.link(feature.properties['embassy_address'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>reg_doc</strong><br />' + (feature.properties['reg_doc'] !== null ? autolinker.link(feature.properties['reg_doc'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Телефон посольства</th>\
-                        <td>' + (feature.properties['embassy_phone'] !== null ? autolinker.link(feature.properties['embassy_phone'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>transport</strong><br />' + (feature.properties['transport'] !== null ? autolinker.link(feature.properties['transport'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Вебсайт посольства</th>\
-                        <td>' + (feature.properties['embassy_website'] !== null ? autolinker.link(feature.properties['embassy_website'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>housing</strong><br />' + (feature.properties['housing'] !== null ? autolinker.link(feature.properties['housing'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>nutrition</strong><br />' + (feature.properties['nutrition'] !== null ? autolinker.link(feature.properties['nutrition'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>pets</strong><br />' + (feature.properties['pets'] !== null ? autolinker.link(feature.properties['pets'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>charity</strong><br />' + (feature.properties['charity'] !== null ? autolinker.link(feature.properties['charity'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>add_info</strong><br />' + (feature.properties['add_info'] !== null ? autolinker.link(feature.properties['add_info'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
-            layer.bindPopup(popupContent, {maxHeight: 400});
+            layer.bindPopup(popupContent, {maxHeight: 400, maxLength:400, autoPan:true});
         }
         function style_Territories_2_0(feature) {
             var context = {
@@ -162,95 +169,95 @@
             };
             // Start of if blocks and style check logic
             if (exp_Territories_2rule0_eval_expression(context)) {
-                  return {
-                pane: 'pane_Territories_2',
-                opacity: 1,
-                color: 'rgba(255,255,255,0.644)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(31,152,227,0.45711372549019613)',
-                interactive: true,
-            };
-                }
-                else if (exp_Territories_2rule1_eval_expression(context)) {
-                  return {
-                pane: 'pane_Territories_2',
-                opacity: 1,
-                color: 'rgba(255,255,255,0.644)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(122,255,61,0.644)',
-                interactive: true,
-            };
-                }
-                else if (exp_Territories_2rule2_eval_expression(context)) {
-                  return {
-                pane: 'pane_Territories_2',
-                opacity: 1,
-                color: 'rgba(255,255,255,0.644)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(255,240,23,0.5758117647058824)',
-                interactive: true,
-            };
-                }
-                else if (exp_Territories_2rule3_eval_expression(context)) {
-                  return {
-                pane: 'pane_Territories_2',
-                opacity: 1,
-                color: 'rgba(255,255,255,0.644)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(255,158,23,0.5530823529411765)',
-                interactive: true,
-            };
-                }
-                else if (exp_Territories_2rule4_eval_expression(context)) {
-                  return {
-                pane: 'pane_Territories_2',
-                opacity: 1,
-                color: 'rgba(255,255,255,0.644)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(228,20,23,0.48741960784313726)',
-                interactive: true,
-            };
-                }
-                else if (exp_Territories_2rule5_eval_expression(context)) {
-                  return {
-                pane: 'pane_Territories_2',
-                opacity: 1,
-                color: 'rgba(255,255,255,0.644)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(114,142,160,0.644)',
-                interactive: true,
-            };
-                }
+                return {
+                    pane: 'pane_Territories_2',
+                    opacity: 1,
+                    color: 'rgba(255,255,255,0.644)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0,
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(31,152,227,0.45711372549019613)',
+                    interactive: true,
+                };
+            }
+            else if (exp_Territories_2rule1_eval_expression(context)) {
+                return {
+                    pane: 'pane_Territories_2',
+                    opacity: 1,
+                    color: 'rgba(255,255,255,0.644)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0,
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(122,255,61,0.644)',
+                    interactive: true,
+                };
+            }
+            else if (exp_Territories_2rule2_eval_expression(context)) {
+                return {
+                    pane: 'pane_Territories_2',
+                    opacity: 1,
+                    color: 'rgba(255,255,255,0.644)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0,
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(255,240,23,0.5758117647058824)',
+                    interactive: true,
+                };
+            }
+            else if (exp_Territories_2rule3_eval_expression(context)) {
+                return {
+                    pane: 'pane_Territories_2',
+                    opacity: 1,
+                    color: 'rgba(255,255,255,0.644)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0,
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(255,158,23,0.5530823529411765)',
+                    interactive: true,
+                };
+            }
+            else if (exp_Territories_2rule4_eval_expression(context)) {
+                return {
+                    pane: 'pane_Territories_2',
+                    opacity: 1,
+                    color: 'rgba(255,255,255,0.644)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0,
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(228,20,23,0.48741960784313726)',
+                    interactive: true,
+                };
+            }
+            else if (exp_Territories_2rule5_eval_expression(context)) {
+                return {
+                    pane: 'pane_Territories_2',
+                    opacity: 1,
+                    color: 'rgba(255,255,255,0.644)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0,
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(114,142,160,0.644)',
+                    interactive: true,
+                };
+            }
             else {
                 return {fill: false, stroke: false};
             }
@@ -276,11 +283,11 @@
                 map.removeLayer(layer_Simple_view_0);
             }
         });
-            if (map.getZoom() <= 19 && map.getZoom() >= 2) {
-                map.addLayer(layer_Simple_view_0);
-            } else if (map.getZoom() > 19 || map.getZoom() < 2) {
-                map.removeLayer(layer_Simple_view_0);
-            }
+        if (map.getZoom() <= 19 && map.getZoom() >= 2) {
+            map.addLayer(layer_Simple_view_0);
+        } else if (map.getZoom() > 19 || map.getZoom() < 2) {
+            map.removeLayer(layer_Simple_view_0);
+        }
         var osmGeocoder = new L.Control.Geocoder({
             collapsed: true,
             position: 'topleft',
@@ -288,11 +295,11 @@
             title: 'Testing'
         }).addTo(map);
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
-        .className += ' fa fa-search';
+            .className += ' fa fa-search';
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
-        .title += 'Search for a place';
+            .title += 'Search for a place';
         var baseMaps = {};
-        L.control.layers(baseMaps,{'Території<br /><table><tr><td style="text-align: center;"><img src="legend/Territories_2_Безінформації0.png" /></td><td>Без інформації</td></tr><tr><td style="text-align: center;"><img src="legend/Territories_2_Вільно1.png" /></td><td>Вільно</td></tr><tr><td style="text-align: center;"><img src="legend/Territories_2_Часткововільно2.png" /></td><td>Частково вільно</td></tr><tr><td style="text-align: center;"><img src="legend/Territories_2_Значніпроблеми3.png" /></td><td>Значні проблеми</td></tr><tr><td style="text-align: center;"><img src="legend/Territories_2_Заборонено4.png" /></td><td>Заборонено</td></tr><tr><td style="text-align: center;"><img src="legend/Territories_2_Україна5.png" /></td><td>Україна</td></tr></table>': layer_Territories_2,"Google Maps": layer_GoogleMaps_1,"Simple_view": layer_Simple_view_0,}).addTo(map);
+        L.control.layers(baseMaps,{'Territories<br /><table><tr><td style="text-align: center;"><img src="legend/Territories_2_Безінформації0.png" /></td><td>Без інформації</td></tr><tr><td style="text-align: center;"><img src="legend/Territories_2_Вільно1.png" /></td><td>Вільно</td></tr><tr><td style="text-align: center;"><img src="legend/Territories_2_Часткововільно2.png" /></td><td>Частково вільно</td></tr><tr><td style="text-align: center;"><img src="legend/Territories_2_Значніпроблеми3.png" /></td><td>Значні проблеми</td></tr><tr><td style="text-align: center;"><img src="legend/Territories_2_Заборонено4.png" /></td><td>Заборонено</td></tr><tr><td style="text-align: center;"><img src="legend/Territories_2_Україна5.png" /></td><td>Україна</td></tr></table>': layer_Territories_2,"Google Maps": layer_GoogleMaps_1,"Simple_view": layer_Simple_view_0,},{collapsed:false}).addTo(map);
         setBounds();
         resetLabels([layer_Territories_2]);
         map.on("zoomend", function(){
@@ -304,6 +311,6 @@
         map.on("layerremove", function(){
             resetLabels([layer_Territories_2]);
         });
-        </script>
+    </script>
     </body>
 </html>
