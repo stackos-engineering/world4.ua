@@ -17,9 +17,11 @@
             height: 100%;
             padding: 0;
             margin: 0;
+            font-size: 14px;
         }
         </style>
-        <title></title>
+        <title>world4ua</title>
+        <script src="https://kit.fontawesome.com/7fd656dec6.js" crossorigin="anonymous"></script>
     </head>
     <body>
     <nav class="navbar">
@@ -65,12 +67,25 @@
                 });
             }
         }
+
         var map = L.map('map', {
-            zoomControl:true, maxZoom:6, minZoom:2
+            zoomControl:false
         })
+
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: false,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+
+        var zoomControl = new L.Control.Zoom({
+            zoomControl:true, maxZoom:6, minZoom:2
+        }).addTo(map);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+
         L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
@@ -125,39 +140,39 @@
             else
                 fugitive_status = '';
 
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+            var popupContent = '<table font>\
+                    <tr align="center">\
+                        <td colspan="2"><b>' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</b></td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + fugitive_status + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>general_info</strong><br />' + (feature.properties['general_info'] !== null ? autolinker.link(feature.properties['general_info'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><i class="fa-solid fa-circle-info"></i><strong>Загальна інформація</strong><br />' + (feature.properties['general_info'] !== null ? autolinker.link(feature.properties['general_info'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>entry_doc</strong><br />' + (feature.properties['entry_doc'] !== null ? autolinker.link(feature.properties['entry_doc'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><i class="fa-solid fa-globe"></i><strong>Реєстрація</strong><br />' + (feature.properties['entry_doc'] !== null ? autolinker.link(feature.properties['entry_doc'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>reg_doc</strong><br />' + (feature.properties['reg_doc'] !== null ? autolinker.link(feature.properties['reg_doc'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><i class="fa-solid fa-id-card"></i><strong>Документи</strong><br />' + (feature.properties['reg_doc'] !== null ? autolinker.link(feature.properties['reg_doc'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>transport</strong><br />' + (feature.properties['transport'] !== null ? autolinker.link(feature.properties['transport'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><i class="fa-solid fa-bus"></i><strong>Транспорт</strong><br />' + (feature.properties['transport'] !== null ? autolinker.link(feature.properties['transport'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>housing</strong><br />' + (feature.properties['housing'] !== null ? autolinker.link(feature.properties['housing'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><i class="fa-solid fa-house"></i><strong>Житло</strong><br />' + (feature.properties['housing'] !== null ? autolinker.link(feature.properties['housing'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>nutrition</strong><br />' + (feature.properties['nutrition'] !== null ? autolinker.link(feature.properties['nutrition'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><i class="fa-solid fa-utensils"></i><strong>Харчування</strong><br />' + (feature.properties['nutrition'] !== null ? autolinker.link(feature.properties['nutrition'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>pets</strong><br />' + (feature.properties['pets'] !== null ? autolinker.link(feature.properties['pets'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><i class="fa-solid fa-paw"></i><strong>Тварини</strong><br />' + (feature.properties['pets'] !== null ? autolinker.link(feature.properties['pets'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>charity</strong><br />' + (feature.properties['charity'] !== null ? autolinker.link(feature.properties['charity'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><i class="fa-solid fa-hand-holding-heart"></i><strong>Благодійність</strong><br />' + (feature.properties['charity'] !== null ? autolinker.link(feature.properties['charity'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>add_info</strong><br />' + (feature.properties['add_info'] !== null ? autolinker.link(feature.properties['add_info'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><i class="fa-solid fa-caret-down"></i><strong>Додаткова інформація</strong><br />' + (feature.properties['add_info'] !== null ? autolinker.link(feature.properties['add_info'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400, maxLength:400, autoPan:true});
@@ -276,6 +291,8 @@
         });
         bounds_group.addLayer(layer_Territories_2);
         map.addLayer(layer_Territories_2);
+
+
         map.on("zoomend", function(e) {
             if (map.getZoom() <= 19 && map.getZoom() >= 2) {
                 map.addLayer(layer_Simple_view_0);
@@ -288,12 +305,7 @@
         } else if (map.getZoom() > 19 || map.getZoom() < 2) {
             map.removeLayer(layer_Simple_view_0);
         }
-        var osmGeocoder = new L.Control.Geocoder({
-            collapsed: true,
-            position: 'topleft',
-            text: 'Search',
-            title: 'Testing'
-        }).addTo(map);
+
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
             .className += ' fa fa-search';
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
