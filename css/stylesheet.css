@@ -1,16 +1,20 @@
+:root {
+    --main-bg-color: rgb(0,91,178);/* rgb(160,176,191);*/
+    --additional-color: #85acc7;
+    --hover-gradient: radial-gradient(circle, rgba(243,217,21,1) 0%, rgba(148,187,233,1) 100%);;
+    --font-color: rgb(255,255,255);
+}
 /* UTILITIES */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-body {
-    font-family: cursive;
+    font-family: Verdana,Geneva,sans-serif;
 }
 a {
     text-decoration: none;
 }
-li {
+li{
     list-style: none;
 }
 
@@ -19,26 +23,33 @@ li {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
-    background-color: rgb(125, 187, 236);
-    color: #fff;
+    background-color: var(--main-bg-color);
+    color: var(--font-color);
 }
+
+.navbar {
+    padding: 1vh 5vw;
+}
+
 .nav-links a {
-    color: #fff;
+    color: var(--font-color);
 }
 /* LOGO */
-.logo {
+.logo a{
+    text-decoration: none;
+    color: var(--font-color);
     font-size: 32px;
+    display: flex;
 }
 /* NAVBAR MENU */
 .menu {
+    height:100%;
     display: flex;
     gap: 1em;
     font-size: 18px;
 }
 .menu li:hover {
-    background-color: rgb(209, 236, 255);
-    border-radius: 5px;
+    background-color: rgba(33,33,33,0.1);
     transition: 0.3s ease;
 }
 .menu li {
@@ -49,11 +60,10 @@ li {
     position: relative;
 }
 .dropdown {
-    background-color: rgba(133, 189, 232, 0.78);
+    background-color: var(--main-bg-color);
     padding: 1em 0;
     position: absolute; /*WITH RESPECT TO PARENT*/
     display: none;
-    border-radius: 8px;
     top: 35px;
 }
 .dropdown li + li {
@@ -65,7 +75,7 @@ li {
     text-align: center;
 }
 .dropdown li:hover {
-    background-color: rgba(175, 205, 225, 0.8);
+    background-color: rgba(33,33,33,0.1);
 }
 .services:hover .dropdown {
     display: block;
@@ -88,7 +98,7 @@ input[type=checkbox]{
         display:none;
         position: absolute;
         z-index: 99999;
-        background-color: rgb(125, 187, 236);
+        background-color: var(--main-bg-color);
         right: 0;
         left: 0;
         text-align: center;
@@ -96,7 +106,7 @@ input[type=checkbox]{
     }
     .menu li:hover {
         display: inline-block;
-        background-color: rgba(169, 203, 225, 0.8);
+        background-color: rgba(33,33,33,0.1);
         transition: 0.3s ease;
     }
     .menu li + li {
@@ -114,6 +124,97 @@ input[type=checkbox]{
         transform: translateX(35%);
     }
     .dropdown li:hover {
-        background-color: rgba(175, 205, 225, 0.8);
+        background-color: rgba(33,33,33,0.1);
     }
+}
+
+/*333333333333333333333333333333333333333333333333333333333333333333333333333*/
+
+main {
+    margin: 5vh 0;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+section {
+    border-radius: 7px;
+}
+article {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 75vw;
+}
+article section {
+    height: auto;
+    width: 100%;
+}
+.list-group {
+    height: auto;
+}
+.list-group-item {
+    /*border: 3px solid #fafafa;*/
+    background-color: rgb(248,250,255);
+    border-radius: 10px;
+    width: 100%;
+    margin: 0 0 2% 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.content-item {
+    margin-top: 1vh;
+    word-wrap: break-word;
+    color: #4c5563;
+    width: 100%;
+}
+.content-box {
+    width: 85%;
+    margin: 3% 0 3% 5%;
+}
+.title-item {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+.created {
+    font-family: system-ui;
+    font-size: 1em;
+    color: #85acc7;
+    width: 10%;
+    margin-left: 1%;
+}
+.link-list-item {
+    height: 15vh;
+    display: flex;
+    padding-left: 2vw;
+    font-size: 2.2em;
+    align-self: center;
+    border-bottom: 1px solid var(--additional-color);
+}
+.link-list-item:first-child {
+    border-top: 1px solid var(--additional-color);
+}
+.link-list-item a {
+    align-self: center;
+    width:100%;
+}
+.link-list-item a i {
+    float:right;
+}
+
+.legend {
+    width: 171px;
+    padding: 8px 8px;
+    font: 14px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgb(255, 255, 255);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    line-height: 24px;
+    color: #555;
 }

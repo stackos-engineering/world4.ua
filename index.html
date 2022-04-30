@@ -12,9 +12,16 @@
         <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
         <link rel="stylesheet" href="css/stylesheet.css">
         <style>
-        html, body, #map {
+        html, body {
             width: 100%;
             height: 100%;
+            padding: 0;
+            margin: 0;
+            font-size: 14px;
+        }
+        #map{
+            width: 100%;
+            height: 93%;
             padding: 0;
             margin: 0;
             font-size: 14px;
@@ -29,13 +36,13 @@
             <input type="checkbox" id="checkbox_toggle" />
             <label for="checkbox_toggle" class="hamburger">&#9776;</label>
             <div class="menu">
-                <li><a href="#">menu1</a></li>
-                <li><a href="#">menu2</a></li>
-                <li><a href="#">menu3</a></li>
-                <li><a href="#">menu4</a></li>
+                <li><a href="#">Українцям</a></li>
+                <li><a href="news.html">Новини</a></li>
+                <li><a href="charity.html">Благодійність</a></li>
+                <li><a href="#">Контакти</a></li>
             </div>
         </ul>
-        <div class="logo">WORLD4UA</div>
+        <div class="logo" ><a href="index.html"><p>World4</p><p style="color:#ffff00">Ua</p></a></div>
     </nav>
 
     <div id="map">
@@ -52,6 +59,8 @@
     <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
     <script src="data/Territories_2.js"></script>
     <script>
+
+
         var highlightLayer;
         function highlightFeature(e) {
             highlightLayer = e.target;
@@ -82,7 +91,7 @@
         var zoomControl = new L.Control.Zoom({
             zoomControl:true,
             maxZoom:6,
-            minZoom:2,
+            minZoom:3,
             position: 'bottomright'
         }).addTo(map);
         var hash = new L.Hash(map);
@@ -102,10 +111,10 @@
             pane: 'pane_Simple_view_0',
             opacity: 0.91,
             attribution: '',
-            minZoom: 2,
+            minZoom: 3,
             maxZoom: 6,
             minNativeZoom: 0,
-            maxNativeZoom: 7
+            maxNativeZoom: 7,
         });
         layer_Simple_view_0;
         map.addLayer(layer_Simple_view_0);
@@ -115,10 +124,10 @@
             pane: 'pane_GoogleMaps_1',
             opacity: 1.0,
             attribution: '',
-            minZoom: 2,
+            minZoom: 3,
             maxZoom: 6,
-            minNativeZoom: 0,
-            maxNativeZoom: 22
+            minNativeZoom: 3,
+            maxNativeZoom: 22,
         });
         layer_GoogleMaps_1;
         function pop_Territories_2(feature, layer) {
@@ -313,8 +322,25 @@
             .className += ' fa fa-search';
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
             .title += 'Search for a place';
-        var baseMaps = {};
-        L.control.layers(baseMaps,{'Territories<br /><table><tr><td style="text-align: center;"><img src="legend/Territories_2_Безінформації0.png" /></td><td>Без інформації</td></tr><tr><td style="text-align: center;"><img src="legend/Territories_2_Вільно1.png" /></td><td>Вільно</td></tr><tr><td style="text-align: center;"><img src="legend/Territories_2_Часткововільно2.png" /></td><td>Частково вільно</td></tr><tr><td style="text-align: center;"><img src="legend/Territories_2_Значніпроблеми3.png" /></td><td>Значні проблеми</td></tr><tr><td style="text-align: center;"><img src="legend/Territories_2_Заборонено4.png" /></td><td>Заборонено</td></tr><tr><td style="text-align: center;"><img src="legend/Territories_2_Україна5.png" /></td><td>Україна</td></tr></table>': layer_Territories_2,"Google Maps": layer_GoogleMaps_1,"Simple_view": layer_Simple_view_0,},{collapsed:false}).addTo(map);
+
+        var legend = L.control({ position: "topright" });
+        legend.onAdd = function(map) {
+            var div = L.DomUtil.create("div", "legend");
+            div.innerHTML += "<h4>Позначення</h4>";
+            div.innerHTML += '<img src="legend/Territories_2_Безінформації0.png" /></i><span>Без інформації</span><br>';
+            div.innerHTML += '<img src="legend/Territories_2_Вільно1.png" /><span>Вільно</span><br>';
+            div.innerHTML += '<img src="legend/Territories_2_Часткововільно2.png" /><span>Частково вільно</span><br>';
+            div.innerHTML += '<img src="legend/Territories_2_Значніпроблеми3.png" /><span>Значні проблеми</span><br>';
+            div.innerHTML += '<img src="legend/Territories_2_Заборонено4.png" /><span>Заборонено</span><br>';
+            return div;
+        };
+        legend.addTo(map);
+
+        var baseMaps = {
+            "Google Maps": layer_GoogleMaps_1,
+            "Спрощений вигляд": layer_Simple_view_0,
+        };
+        L.control.layers(baseMaps,{},{collapsed:false}).addTo(map);
         setBounds();
         resetLabels([layer_Territories_2]);
         map.on("zoomend", function(){
@@ -326,6 +352,7 @@
         map.on("layerremove", function(){
             resetLabels([layer_Territories_2]);
         });
+
     </script>
     </body>
 </html>
